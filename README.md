@@ -1,7 +1,7 @@
 UAS JSON Server
 ======================================================
 
-JSON Server for UAS competition. Makes calls to the SUAS server API'
+JSON Server for UAS competition. Makes calls to the SUAS server API
 
 Requires the Node.js framework to run, along with the Node.js dependencies listed.
 
@@ -13,17 +13,25 @@ The following are Node.js packages that are required to run this server. To inst
 
 #####Linux
 
-``` sudo
-apt-get install npm
+``` sh
+sudo apt-get install npm
 ```
 
 #####Mac
 
-``` brew
-install npm
+``` sh
+brew install npm
 ```
 
 Use npm to install the node packages below.
 
 - socket.io 	`npm install socket.io`
 - mysql		`npm install mysql`
+
+####Running Server
+
+To run the server, make sure to have followed the above steps, and type the following.
+
+``` sh
+node main
+```
