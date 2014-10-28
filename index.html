@@ -2,8 +2,53 @@
 <html>
 <head>
 	<title>UAS JSON Server</title>
+<script src = "/socket.io/socket.io.js"></script>
+<link href = 'http://fonts.googleapis.com/css?family=Raleway:400,200,100' rel = 'stylesheet' type = 'text/css'>
+<style>
+body {
+font:100 16px 'Raleway', 'Helvetica', 'Sans-serif';
+}
+</style>
 </head>
 <body>
-UAS JSON Server. Connection successful.
+<span id = "statusLogs"></span>
+<script>
+/** 
+ * begin main variable declaration
+ */
+var socket = io('http://localhost:8000'); 			// begin connection to socket server
+var DOMStatusLogs = document.getElementById('statusLogs');	// dom element to hold response logs
+
+/**
+ * formats output text and writes to dom element holding logs
+ *
+ * @param outputText {String} text to output to #statusLogs
+ */
+function log(outputText) {
+	DOMStatusLogs.innerHTML += "<br />- " + outputText;
+}
+
+/**
+ * main function. called on program starti
+ */
+(function main() {
+	log('Attempting to connect to the socket server.');
+})();
+
+/**
+ * declare socket server events
+ */
+
+// listen for main connection receipt from server
+socket.on('connection', function(data) {
+	log("Connection to socket server successful.");
+	log("[server] " + data.text);
+});
+
+// if server drops connection, log disconnect data (if any)
+socket.on('disconnect', function() {
+	log("Connection to socket server dropped.");
+});
+</script>
 </body>
 </html>

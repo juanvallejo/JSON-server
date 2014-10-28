@@ -14,8 +14,8 @@ var PORT 	= 8000; 		// port at which this application will listen for connection
 
 // client is server making requests to competition server
 var client = http.createServer(function(request, response) {
-	// log connection
-	console.log('Receiving connection from ' + request.connection.remoteAddress);
+	// log connection address
+	console.log('<http> Receiving connection from ' + request.connection.remoteAddress);
 
 	// read and serve static file to client
 	readFile(__dirname + '/index.html', function(err, file) {
@@ -33,12 +33,18 @@ var client = http.createServer(function(request, response) {
 });
 
 // start listening for connections
-console.log('Listening for connections at port ' + PORT);
+console.log('<http> Listening for connections at port ' + PORT);
 client.listen(PORT);
 
-// start socket connection listener
-socket.listen(client).on('connection', function(socket) {
-	console.log('socket.io started');
+// start socket connection listener and event handling
+var io = socket.listen(client).on('connection', function(socket) {
+	// log any time a new connection with a client is established
+	console.log('<socket.io> WebSocket client connection received.');
+	
+	// send 'connection' event to client.
+	socket.emit('connection', {
+		text : 'Connected to UAS server at port ' + PORT
+	});
 });
 
 /**
