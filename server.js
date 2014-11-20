@@ -22,6 +22,11 @@ var mavlink = require('./mavlink/javascript/lib/jspack/mavlink');	// import mavl
 var HTTP_PORT 	= 8000; 		// port at which this application will listen for connections
 var NET_PORT	= 8080;			// port at which this application will listen for MAVLink connections
 
+// define connection variables
+var net_received_data = false;	// indicates <net> connection received data once. This flag prevents program from logging data multiple times
+								// per request
+
+
 // client is server making requests to competition server
 var client = http.createServer(function(request, response) {
 	// log connection address
@@ -90,21 +95,29 @@ function readFile(fileUrl, callback) {
 
 	// create a connection to listen for mavlink messages
 	var connection = net.createServer(function(client) {
+		// set connection's ip address to current client's remote address 
+		connection.remoteAddress = client.remoteAddress;
+
 		// listen for when client disconnects
 		client.on('end', function() {
-			console.log('<net> Client ' + client.remoteAddress + ' has disconnected');
+			// log client disconnect
+			console.log('<net> Client ' + connection.remoteAddress + ' has disconnected');
+			// reset data received
 		});
 
 		// listen for binary data received from client
 		client.on('data', function(data) {
-			// advertise data was received
-			console.log('<net> Binary data stream received from client ' + client.remoteAddress);
-			// parse received data using mavlink parser
-			mavlinkParser.parseBuffer(data);
+			// reset our net_received_data flag so new decoded messages are logged
+			net_received_data = false;
 
-			// test message
-			var message = new mavlink.messages.request_data_stream(1, 1, mavlink.MAV_DATA_STREAM_ALL, 1, 1);
-			console.log(new Buffer(message.pack(mavlinkParser)));
+			// advertise data was received
+			console.log('<net> Binary data stream received from client ' + connection.remoteAddress);
+			// parse received data using mavlink parser
+			// console.log(mavlinkParser.parseBuffer(data));
+
+			// test message output for a single waypoint
+			var message = new mavlink.messages.mission_item(1, 1, 1, 1, 16, 1, 1, 0.149999999999999994, 0, 0, 0, 8.54800000000000004, 47.3759999999999977, 550);
+			mavlinkParser.parseBuffer(new Buffer(message.pack(mavlinkParser)));
 		});
 
 	});
@@ -129,7 +142,19 @@ function readFile(fileUrl, callback) {
 
 	// listen for any type of mavlink message
 	mavlinkParser.on('message', function(message) {
-		console.log('<mavlink> binary data from client successfully decoded');
+		// stop more incoming messages from displaying once one has been received
+		if(net_received_data) {
+			return;
+		}
+
+		console.log('<mavlink> binary data from client ' + connection.remoteAddress + ' successfully decoded:');
+		console.log('<mavlink_message>');
+		console.log(message);
+		console.log('</mavlink_message>');
+
+		// indicate data has been received once already
+		net_received_data = true;
+
 	});
 
 })();
