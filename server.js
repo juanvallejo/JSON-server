@@ -159,4 +159,3 @@ function readFile(fileUrl, callback) {
 
 })();
 
-// Do you need help with the base64 decoding of the Mavlink Packets?
