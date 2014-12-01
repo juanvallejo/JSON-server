@@ -159,3 +159,27 @@ function readFile(fileUrl, callback) {
 
 })();
 
+
+/*
+
+Suggestions for the waypoint code would be to make a waypoint class and then implement it in the system.
+
+Waypoints.create({ 
+  selector: '.js-waypoint',
+  addClass: 'is-visible',
+  removeClass: 'is-hidden',
+  delay: 500,
+  offset: -200
+});
+
+var waypoints = new Waypoints();
+
+waypoints.addPoint(100, {
+  foo: "bar"
+});
+
+waypoints.on('point', function(point, data){
+  console.log('Point reached');
+});
+
+*/
