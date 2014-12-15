@@ -7,7 +7,7 @@
  *
  * @file server.js
  *
- * @author juanvallejo
+ * @author juanvallejo, davidkroell
  * @date 11/18/14
  */
 
