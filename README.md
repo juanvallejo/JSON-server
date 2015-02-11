@@ -33,5 +33,19 @@ Use npm to install the node packages below.
 To run the server, make sure to have followed the above steps, and type the following.
 
 ``` sh
-node main
+node server
 ```
+
+Note: if you are using Ubuntu, or any other Linux distro like it, but mainly Ubuntu because that's where I've seen this happen, and the above command does something else than run the Node.js server, change your Linux distro to something better, and type...
+
+```
+nodejs server
+```
+
+####Sending data to the server
+
+The server (as noted on its comments, if you, you know, actually read its code) will listen for http requests (client connections mainly) on port `8000`, and raw MAVLink data on port `7777`. Don't ask how I decided on these port numbers, I just did. 
+
+####Useful links
+
+- http://dev.ardupilot.com/wiki/setting-up-sitl-on-linux/
