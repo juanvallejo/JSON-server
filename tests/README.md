@@ -12,4 +12,4 @@ To run any of the tests on this folder, type the line below...
 node nameOfTheTestOnThisFolder.js
 ```
 
-As you may have just found out, you do in fact need Node.js to run these tests. As you also need to run the main server.js. And pretty much everything else in this repository. To install, read the actual README.md file supplied in the root directory of this repository.
+As you may have just found out, you do in fact need Node.js to run these tests. And the main server.js. And pretty much everything else in this repository. To install, read the actual README.md file supplied in the root directory of this repository.
