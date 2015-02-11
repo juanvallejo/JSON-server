@@ -11,6 +11,6 @@ var http = require('http');
         //console.log that mavlink listener has been tested
     });
     
-    netRequest.end("This is where you type the data you want to send");
+    netRequest.end("Hello World");
     
 })(process.argv);
