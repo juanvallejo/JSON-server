@@ -12,7 +12,6 @@
  *
  * @file server.js
  *
- * @author juanvallejo
  * @date 11/18/14
  */
 
