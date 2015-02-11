@@ -196,7 +196,7 @@ UAS.authenticate = function(postData, callback) {
 	};
 
 	var request = http.request(options, callback);
-console.log(postData);
+
 	// send data as a POST request and end the request
 	request.write(postData);
 	request.end();
