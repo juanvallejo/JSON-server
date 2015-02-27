@@ -6,10 +6,10 @@
  *
  * Files written to test interoperability request handling for the UAS competition server
  *
- * @file postUASTelemetryTest.js
+ * @file getObsticleInformationTest.js
  *
- * @author juanvallejo
- * @date 2/9/14
+ * @author David Kroell
+ * @date 02/23/2015
  */
 
 // define libraries to be used 
@@ -23,6 +23,35 @@ Checks to see if Obsticle information is handled correctly by the JSON-server, a
 (function doesJSONServerHandleObsticleInformation() {
 
 	var postData        = 'this=is&a=test'
-	
+	var responseData 	= '';
+ 	var request 		= null;
 
+ 	 request 			= http.request({
+
+ 		port 	: 8000,
+		method 	: 'GET',
+		path 	: '/api/interop/obstacles',
+		headers : {
+
+			'UASAPI-Method'	: 'getObsticleInformation',
+			'Content-Type' 	: 'application/x-form-urlencoded',
+			'Content-Length': postData.length
+
+		}
+
+	  }, function(response) {
+
+ 		response.on('data', function(chunk) {
+ 			responseData += chunk;
+ 		});
+
+ 		response.on('end', function() {
+
+ 			if(responseData == null && response.statusCode == 200) {
+	 			console.log('The team made a valid request. The request will be logged to later evaluate request rates.');
+	 		} else {
+	 			console.log('Error, invalid request. Server either not found, or something wrong with the code.');
+	 		}
+
+ 		});
 });
