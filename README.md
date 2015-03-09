@@ -23,10 +23,9 @@ sudo apt-get install npm
 brew install npm
 ```
 
-Use npm to install the node packages below.
+**Install dependencies**
 
-- socket.io 	`npm install socket.io`
-- mysql		`npm install mysql`
+Use npm to install dependencies: `npm install`
 
 ####Running Server
 
