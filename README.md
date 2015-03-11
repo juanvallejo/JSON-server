@@ -5,11 +5,11 @@ JSON Server for UAS competition. Makes calls to the SUAS server API
 
 Requires the Node.js framework to run, along with the Node.js dependencies listed.
 
-####Dependencies
+###Dependencies
 
 The following are Node.js packages that are required to run this server. To install these packages, you must have the Node Package Manager installed.
 
-**Install the Node Package Manager (npm)**
+####Install the Node Package Manager (npm)
 
 #####Linux
 
@@ -23,12 +23,25 @@ sudo apt-get install npm
 brew install npm
 ```
 
-Use npm to install the node packages below.
+####Install dependencies
 
-- socket.io 	`npm install socket.io`
-- mysql		`npm install mysql`
+Use npm to install dependencies: `npm install`
 
-####Running Server
+####Prepare submodules
+
+To get the mavlink submodule installed run
+
+``` sh
+git submodule init
+```
+
+Then actually download the submodule by running
+
+``` sh
+git submodule update
+```
+
+###Running Server
 
 To run the server, make sure to have followed the above steps, and type the following.
 
@@ -42,10 +55,10 @@ Note: if you are using Ubuntu, or any other Linux distro like it, but mainly Ubu
 nodejs server
 ```
 
-####Sending data to the server
+###Sending data to the server
 
 The server (as noted on its comments, if you, you know, actually read its code) will listen for http requests (client connections mainly) on port `8000`, and raw MAVLink data on port `7777`. Don't ask how I decided on these port numbers, I just did. 
 
-####Useful links
+###Useful links
 
 - http://dev.ardupilot.com/wiki/setting-up-sitl-on-linux/
