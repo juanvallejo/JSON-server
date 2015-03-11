@@ -30,7 +30,7 @@ Checks to see if Obsticle information is handled correctly by the JSON-server, a
 
  		port 	: 8000,
 		method 	: 'GET',
-		path 	: '/api/interop/obstacles',
+		path 	: '/api/test',
 		headers : {
 
 			'UASAPI-Method'	: 'getObsticleInformation',
