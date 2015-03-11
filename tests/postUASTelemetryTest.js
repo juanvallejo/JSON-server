@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/usr/bin/env node
 
 /**
  * Provided under the MIT License (c) 2014
@@ -20,6 +20,8 @@ var http = require('http');
  * Checks to see that a POST request containing any data is handled correctly against the UAS competiton
  * server api. Since telemetry data opens a persistent request, a request is made to manually end it after a response is originally
  * received.
+ *
+ * @request POST
  */
 (function doesJSONServerHandleTelemetryDataSentAsPOSTRequest() {
 
@@ -84,10 +86,12 @@ var http = require('http');
 /**
  * Checks to see that a login request is handled and parsed by the server. An authentication token should be
  * received
+ *
+ * @request POST
  */
 (function doesJSONServerHandleLoginRequest() {
 
- 	var postData 		= 'username=username&password=password';
+ 	var postData 		= 'username=test&password=test';
  	var responseData 	= '';
  	var request 		= null;
 
@@ -112,10 +116,58 @@ var http = require('http');
 
  		response.on('end', function() {
 
- 			console.log(responseData);
+ 			if(responseData == 'Login Successful.') {
+	 			console.log('doesJSONServerHandleLoginRequest : success');
+	 		} else {
+	 			console.log('doesJSONServerHandleLoginRequest : failure');
+	 		}
 
- 			if(responseData == 'OK') {
-	 			console.log('doesJSONServerHandleLoginRequest : success!');
+ 		});
+
+ 	});
+
+ 	request.write(postData);
+ 	request.end();
+
+})();
+
+/**
+ * Checks to see that a request for server data is handled properly and the correct data format is returned.
+ * Requests authentication token. Login must have already happened prior to this request
+ * @request GET
+ */
+(function doesJSONServerHandleServerDataRequest() {
+
+	var postData 		= '';		// what we will send our server as a POST argument
+ 	var responseData 	= '';		// the response we receive from relay server [from competition server]
+ 	var request 		= null;		// holds our HTTP request object
+
+ 	request 			= http.request({
+
+ 		port 	: 8000,				// method our relay server is listening on
+		method 	: 'POST',			// method to be made to our relay server
+		path 	: '/api/test',		// path our relay server uses for test requests
+		headers : {
+
+			'UASAPI-Method'			: 'requestServerInformation',
+			'UASAPI-Request-Method'	: 'GET',
+			'UASAPI-Require-Auth'	: 'username=test&password=test',
+			'UASAPI-Request-Uri'	: '/api/interop/server_info',
+			'Content-Type' 			: 'application/x-www-form-urlencoded',
+			'Content-Length'		: postData.length
+
+		}
+
+ 	}, function(response) {
+
+ 		response.on('data', function(chunk) {
+ 			responseData += chunk;
+ 		});
+
+ 		response.on('end', function() {
+
+ 			if(responseData == 'Login Successful.') {
+	 			console.log('doesJSONServerHandleLoginRequest : success');
 	 		} else {
 	 			console.log('doesJSONServerHandleLoginRequest : failure');
 	 		}
