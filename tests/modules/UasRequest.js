@@ -1,5 +1,7 @@
 /**
- * Request module for test cases
+ * Request module for test cases. Prepares an http or http request, and appends headers to it
+ * such that they indicate to the test server which parameters should be used when dealing with a connection
+ * to the interoperability server
  *
  * @author juanvallejo
  * @date 3/11/15
@@ -74,11 +76,11 @@ UasRequest.create = function(protocol, requestMethod, uasAPIHeader) {
 
 	// set api values for the connection
 	UasConnectionObject.addHeaders({
-		'UASAPI-Method' : uasAPIHeader
+		'UASAPI-Endpoint' : uasAPIHeader
 	});
 
 	UasConnectionObject.addHeaders({
-		'UASAPI-Request-Method' : requestMethod
+		'UASAPI-Method' : requestMethod
 	});
 
 	return UasConnectionObject;		
