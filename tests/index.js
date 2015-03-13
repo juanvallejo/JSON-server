@@ -10,7 +10,9 @@ var Tests = require(__dirname + '/tests.js');
 
 //import all test cases
 require('fs').readdirSync(__dirname + '/tests').forEach(function(testCase) {
-	require(__dirname + '/tests/' + testCase);
+	if(testCase.split('.js').length > 1) {
+		require(__dirname + '/tests/' + testCase);
+	}
 });
 
 // run all tests

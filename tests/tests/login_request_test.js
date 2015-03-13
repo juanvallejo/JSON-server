@@ -1,3 +1,5 @@
+#!/bin/env node
+
 /**
  * Checks to see that a login request is handled and parsed by the server. An authentication token should be
  * received
@@ -27,13 +29,13 @@ LoginTest.run = function() {
 	// make a new uas request to the json server. Pass the method we want to call on the json server
 	// as the first parameter. We then use the 'end' method to indicate that our test case has finished executing
 	// passing the 'actual' result to it
-	var request = this.modules.UasRequest.post('authenticate', function(response) {
-		testCase.end(response);
-	});
+	var connection = this.modules.UasRequest.post('authenticate');
 
 	// write data to send as a POST request
-	request.write('username=test&password=test');
-	request.end();
+	this.modules.UasRequest.write(connection, 'username=test&password=test');
+	this.modules.UasRequest.send(connection, function(response) {
+		testCase.end(response);
+	});
 
 }
 

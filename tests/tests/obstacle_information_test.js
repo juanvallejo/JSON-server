@@ -31,13 +31,13 @@ ObstacleInformationTest.run = function() {
 	// make a new uas request to the json server. Pass the method we want to call on the json server
 	// as the first parameter. We then use the 'end' method to indicate that our test case has finished executing
 	// passing the 'actual' result to it
-	var request = this.modules.UasRequest.get('getObstacleInformation', function(response) {
+	var connection = this.modules.UasRequest.get('getObstacleInformation');
+
+	// set request's options and send connection
+	this.modules.UasRequest.requireAuthentication(connection);
+	this.modules.UasRequest.send(connection, function(response) {
 		testCase.end(response);
 	});
-
-	// write data to send as a POST request
-	request.write('username=test&password=test');
-	request.end();
 
 }
 

@@ -7,6 +7,8 @@
  */
 
 var TestModules = require('../modules');
+var EventObject = require(__dirname + '/event_object.js');
+
 
 /**
  * Test interface for implementing a test case
@@ -23,10 +25,6 @@ function Test(name) {
 	this.expectedValue 	= undefined; 
 	this.actualValue 	= null;
 	this.category 		= null;
-
-	// define functions to call
-	// when returns method is called
-	this.callbacks 		= {};
 
 	// define test modules
 	this.modules 		= TestModules;
@@ -67,34 +65,6 @@ function Test(name) {
 	}
 
 	/**
-	 * assign a callback for a specific state of the test case
-	 */
-	this.on = function(state, callback) {
-
-		// determine if a callback for this state
-		// has been previously assigned
-		if(!this.callbacks[state]) {
-			this.callbacks[state] = [];
-		}
-
-		this.callbacks[state].push(callback);
-
-	}
-
-	/**
-	 * call all pending callback functions for a state and pass a value
-	 */
-	this.emit = function(state, value) {
-
-		var scope = this;
-
-		this.callbacks[state].forEach(function(callback) {
-			callback.call(scope, value);
-		});
-
-	}
-
-	/**
 	 * Run method for our test. Every test item must implement it.
 	 *
 	 * @return each test case MUST return an "actual" value, or the value obtained
@@ -119,5 +89,7 @@ function Test(name) {
 	}
 
 }
+
+Test.prototype = new EventObject();
 
 module.exports = Test;

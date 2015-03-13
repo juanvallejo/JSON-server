@@ -5,8 +5,14 @@
  * @date 3/11/15
  */
 
+// import a connection prototype
+var Connection = require(__dirname + '/../prototypes/connection.js');
+
 // declare our module object
 var UasRequest = {};
+
+// set module name
+UasRequest.MODULE_NAME = 'UasRequest';
 
 var defaultRequestOptions = {
 
@@ -20,56 +26,78 @@ var defaultRequestHeaders = {
 	'Content-Type' 	: 'application/x-www-form-urlencoded'
 }
 
-UasRequest.MODULE_NAME = 'UasRequest';
-
 // declare default fields
 
 /**
- * takes a json object with a connection options
+ * takes a Connection object and adds default connection headers
  */
-UasRequest.setOptions = function(options) {
+UasRequest.setDefaultOptions = function(connection) {
 
-	for(var i in options) {
-		defaultRequestOptions[i] = options[i];
-	}
+	connection.setConnectionPort(defaultRequestOptions.port);
+	connection.setConnectionPath(defaultRequestOptions.path);
+	connection.setConnectionMethod(defaultRequestOptions.method);
 
 }
 
 /**
- * takes a json object with header key-values
+ * takes a Connection object and passes the default request headers object.
  */
-UasRequest.setHeaders = function(headers) {
+UasRequest.setDefaultHeaders = function(connection) {
+	connection.addHeaders(defaultRequestHeaders);
+}
 
-	for(var i in headers) {
-		defaultRequestHeaders[i] = headers[i];
-	}
+/**
+ * Adds a require-authentication-header to the connection object
+ */
+UasRequest.requireAuthentication = function(connection) {
+
+	connection.addHeaders({
+		'UASAPI-Require-Authentication' : 'true'
+	});
 
 }
 
 /**
- * creates a new http or https request. Takes a uasAPIHeader and appends it
- * to the header of the request.
+ * Initializes a Connection object, along with methods
  */
-UasRequest.create = function(protocol, requestMethod, uasAPIHeader, callback) {
+UasRequest.create = function(protocol, requestMethod, uasAPIHeader) {
 
-	// append api header to our headers
-	UasRequest.setHeaders({
+	// create a new connection object
+	var UasConnectionObject = new Connection();
+
+	// set the connection's default options
+	UasRequest.setDefaultOptions(UasConnectionObject);
+	UasRequest.setDefaultHeaders(UasConnectionObject);
+
+	// set the protocol of our connection and add the api header
+	UasConnectionObject.setConnectionProtocol(protocol);
+
+	// set api values for the connection
+	UasConnectionObject.addHeaders({
 		'UASAPI-Method' : uasAPIHeader
 	});
 
-	// set request method
-	UasRequest.setOptions({
+	UasConnectionObject.addHeaders({
 		'UASAPI-Request-Method' : requestMethod
 	});
 
-	// assign headers to our request
-	defaultRequestOptions.headers = defaultRequestHeaders;
+	return UasConnectionObject;		
 
-	// create a new request
-	return require(protocol).request(defaultRequestOptions, function(response) {
+}
+
+UasRequest.write = function(connection, data) {
+	connection.write(data);
+}
+
+/**
+ * Send and handle a response from the request created by the connection object
+ */
+UasRequest.send = function(connection, callback) {
+
+	connection.end(function(response, cookies) {
 
 		// determine the type of the request made
-		if(defaultRequestOptions.method == 'GET') {
+		if(this.getConnectionOptions('method') == 'GET') {
 			return callback.call(UasRequest, response);
 		}
 
@@ -91,15 +119,15 @@ UasRequest.create = function(protocol, requestMethod, uasAPIHeader, callback) {
 /**
  * Takes a uasAPIHeader and creates a new GET request
  */
-UasRequest.get = function(uasAPIHeader, callback) {
-	return UasRequest.create('http', 'GET', uasAPIHeader, callback);
+UasRequest.get = function(uasAPIHeader) {
+	return UasRequest.create('http', 'GET', uasAPIHeader);
 }
 
 /**
  * Takes a uasAPIHeader and creates a new POST request
  */
-UasRequest.post = function(uasAPIHeader, callback) {
-	return UasRequest.create('http', 'POST', uasAPIHeader, callback);
+UasRequest.post = function(uasAPIHeader) {
+	return UasRequest.create('http', 'POST', uasAPIHeader);
 }
 
 module.exports = UasRequest;
