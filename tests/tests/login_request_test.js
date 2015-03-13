@@ -29,7 +29,7 @@ LoginTest.run = function() {
 	// make a new uas request to the json server. Pass the method we want to call on the json server
 	// as the first parameter. We then use the 'end' method to indicate that our test case has finished executing
 	// passing the 'actual' result to it
-	var connection = this.modules.UasRequest.post('authenticate');
+	var connection = this.modules.UasRequest.post('/api/login');
 
 	// write data to send as a POST request
 	this.modules.UasRequest.write(connection, 'username=test&password=test');

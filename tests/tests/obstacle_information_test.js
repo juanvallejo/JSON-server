@@ -10,6 +10,8 @@
  *
  * @author David Kroell
  * @date 02/23/2015
+ *
+ * @testcase
  */
 
 
@@ -31,7 +33,7 @@ ObstacleInformationTest.run = function() {
 	// make a new uas request to the json server. Pass the method we want to call on the json server
 	// as the first parameter. We then use the 'end' method to indicate that our test case has finished executing
 	// passing the 'actual' result to it
-	var connection = this.modules.UasRequest.get('getObstacleInformation');
+	var connection = this.modules.UasRequest.get('/api/interop/obstacles');
 
 	// set request's options and send connection
 	this.modules.UasRequest.requireAuthentication(connection);
@@ -43,53 +45,3 @@ ObstacleInformationTest.run = function() {
 
 // add a new instance of our test to the testing library
 Tests.addTest(ObstacleInformationTest);
-
-
-
-
-
-
-
-// // define libraries to be used 
-
-// var http = require('http');
-
-// /**
-// Checks to see if Obsticle information is handled correctly by the JSON-server, as a GET request on the server. 
-// */
-
-// (function doesJSONServerHandleObsticleInformation() {
-
-// 	var postData        = 'this=is&a=test'
-// 	var responseData 	= '';
-//  	var request 		= null;
-
-//  	 request 			= http.request({
-
-//  		port 	: 8000,
-// 		method 	: 'GET',
-// 		path 	: '/api/test',
-// 		headers : {
-
-// 			'UASAPI-Method'	: 'getObsticleInformation',
-// 			'Content-Type' 	: 'application/x-form-urlencoded',
-// 			'Content-Length': postData.length
-
-// 		}
-
-// 	  }, function(response) {
-
-//  		response.on('data', function(chunk) {
-//  			responseData += chunk;
-//  		});
-
-//  		response.on('end', function() {
-
-//  			if(responseData == null && response.statusCode == 200) {
-// 	 			console.log('The team made a valid request. The request will be logged to later evaluate request rates.');
-// 	 		} else {
-// 	 			console.log('Error, invalid request. Server either not found, or something wrong with the code.');
-// 	 		}
-
-//  		});
-// });
