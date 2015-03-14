@@ -6,9 +6,45 @@ Both the UAS python test server and our JSON server.js server must be running.
 
 ###Running these tests
 
-To run any of the tests on this folder using the test module library, type the line below...
+To run any of the tests on this folder using the test module library, make sure you `cd` into this folder and type the line below...
 
 ```
+node ./
+```
+
+*Make sure* that both the uas competition (python) server and the json server are running  when tests are run.
+The uas competition server does not come with this project. It can be downloaded at [https://github.com/pmtischler/auvsi_suas_competition](https://github.com/pmtischler/auvsi_suas_competition).
+
+###Starting the uas competition server
+
+```
+cd competition_server_folder
+cd src
+cd auvsi_suas_server
+```
+
+If it is the first time running the competition server, initialize its database with the command below
+
+```
+python manage.py syncdb
+```
+
+Finally, to run the server, type
+
+```
+python manage.py runserver 0.0.0.0:8080
+```
+
+The server should be started on port 8080, but if you prefer a different port, you must change the UAS_PORT constant in `Globals.js` located in `/ the root folder` on the json server repo
+
+###Starting the json server
+
+The json server provides wrappers, libraries, and unit-test libraries for makign requests to the uas python server.
+
+This test case module should be bundled in with the json server and located  at `path_to_json_repo/tests`. But this should already be the case anyway.
+
+```
+cd path_to_json_repo
 node ./
 ```
 

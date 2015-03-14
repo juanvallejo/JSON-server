@@ -46,13 +46,13 @@ git submodule update
 To run the server, make sure to have followed the above steps, and type the following.
 
 ``` sh
-node server
+node ./
 ```
 
 Note: if you are using Ubuntu, or any other Linux distro like it, but mainly Ubuntu because that's where I've seen this happen, and the above command does something else than run the Node.js server, change your Linux distro to something better, and type...
 
 ```
-nodejs server
+nodejs ./
 ```
 
 ###Sending data to the server
