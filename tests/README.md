@@ -1,4 +1,4 @@
-Telemetry tests
+Test Cases
 ===============
 
 Essentially test competition server api calls on the actual `server.js` file.
