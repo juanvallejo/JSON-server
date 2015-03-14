@@ -26,6 +26,8 @@ function Test(name) {
 	this.actualValue 	= null;
 	this.category 		= null;
 
+	this.callbacks 		= [];
+
 	// define test modules
 	this.modules 		= TestModules;
 
@@ -80,16 +82,29 @@ function Test(name) {
 	}
 
 	/**
+	 * Adds a function to be executed once the test ends
+	 */
+	this.onEnd = function(callback) {
+		this.callbacks.push(callback);
+	}
+
+	/**
 	 * Since responses are sometimes asynchronous, we use
 	 * the end method to indicate the exact value that our test case is supposed to return
 	 * when our test has completely finished executing
 	 */
 	this.end = function(value) {
-		this.emit('end', value);
+
+		if(!(value instanceof Array)) {
+			value = [value];
+		}
+
+		for(var i = 0; i < this.callbacks.length; i++) {
+			this.callbacks[i].apply(this, value);
+		}
+
 	}
 
 }
-
-Test.prototype = new EventObject();
 
 module.exports = Test;

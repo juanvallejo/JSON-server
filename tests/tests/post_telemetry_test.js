@@ -1,134 +1,44 @@
-// #!/usr/bin/env node
+#!/bin/env node
 
-// /**
-//  * Provided under the MIT License (c) 2014
-//  * See LICENSE @file for details.
-//  *
-//  * Files written to test interoperability request handling for the UAS competition server
-//  *
-//  * @file postUASTelemetryTest.js
-//  *
-//  * @author juanvallejo
-//  * @date 2/9/14
-//  */
+/**
+ * Checks to see that a login request is handled and parsed by the server. An authentication token should be
+ * received
+ *
+ * @author juanvallejo
+ * @date 3/11/15
+ *
+ * @testcase
+ * @request POST
+ */
 
-// // define libraries to be used 
+// import prototype object and test case library
+var Tests 	= require('../tests.js');
+var Test 	= require('../prototypes/test.js');
 
-// var http = require('http');
+// declare and name our new test case
+var PostTelemetryTest = new Test('doesJSONServerHandleLoginRequest');
 
-// /**
-//  * Checks to see that a POST request containing any data is handled correctly against the UAS competiton
-//  * server api. Since telemetry data opens a persistent request, a request is made to manually end it after a response is originally
-//  * received.
-//  *
-//  * @request POST
-//  */
-// (function doesJSONServerHandleTelemetryDataSentAsPOSTRequest() {
+// set our test case's expected value
+PostTelemetryTest.expects('UAS Telemetry Successfully Posted.');
 
-//  	var postData 		= 'this=is&a=test';
-//  	var responseData 	= '';
-//  	var request 		= null;
+// override run function
+PostTelemetryTest.run = function() {
 
-//  	request 			= http.request({
+	var testCase = this;
 
-//  		port 	: 8000,
-// 		method 	: 'POST',
-// 		path 	: '/api/test',
-// 		headers : {
+	// make a new uas request to the json server. Pass the method we want to call on the json server
+	// as the first parameter. We then use the 'end' method to indicate that our test case has finished executing
+	// passing the 'actual' result to it
+	var connection = this.modules.UasRequest.post('/api/interop/uas_telemetry');
 
-// 			'UASAPI-Method'	: 'postTelemetryData',
-// 			'Content-Type' 	: 'application/x-form-urlencoded',
-// 			'Content-Length': postData.length
+	// write data to send as a POST request
+	this.modules.UasRequest.write(connection, 'latitude=50&longitude=47&altitude_msl=3&uas_heading=80');
+	this.modules.UasRequest.requireAuthentication(connection, 'test', 'test');
+	this.modules.UasRequest.send(connection, function(response) {
+		testCase.end(response);
+	});
 
-// 		}
+}
 
-//  	}, function(response) {
-
-//  		response.on('data', function(chunk) {
-//  			responseData += chunk;
-//  		});
-
-//  		response.on('end', function() {
-
-//  			if(responseData == 'User not logged in. Login required.' && response.statusCode == 400) {
-// 	 			console.log('doesJSONServerHandleTelemetryDataSentAsPOSTRequest : success!');
-// 	 		} else {
-// 	 			console.log('doesJSONServerHandleTelemetryDataSentAsPOSTRequest : failure');
-// 	 		}
-
-//  		});
-
-//  		// end persistent request
-//  		var requestToEndPersistentRequest = http.request({
-
-// 	 		port 	: 8000,
-// 			method 	: 'POST',
-// 			path 	: '/api/test',
-// 			headers : {
-
-// 				'UASAPI-Method'	: 'endPersistentRequest',
-// 				'Content-Type' 	: 'application/x-form-urlencoded',
-// 				'Content-Length': 0
-
-// 			}
-
-// 	 	});
-
-// 	 	requestToEndPersistentRequest.end();
-
-//  	});
-
-//  	request.write(postData);
-//  	request.end();
-
-// })();
-
-// /**
-//  * Checks to see that a request for server data is handled properly and the correct data format is returned.
-//  * Requests authentication token. Login must have already happened prior to this request
-//  * @request GET
-//  */
-// (function doesJSONServerHandleServerDataRequest() {
-
-// 	var postData 		= '';		// what we will send our server as a POST argument
-//  	var responseData 	= '';		// the response we receive from relay server [from competition server]
-//  	var request 		= null;		// holds our HTTP request object
-
-//  	request 			= http.request({
-
-//  		port 	: 8000,				// method our relay server is listening on
-// 		method 	: 'POST',			// method to be made to our relay server
-// 		path 	: '/api/test',		// path our relay server uses for test requests
-// 		headers : {
-
-// 			'UASAPI-Method'			: 'requestServerInformation',
-// 			'UASAPI-Request-Method'	: 'GET',
-// 			'UASAPI-Require-Auth'	: 'username=test&password=test',
-// 			'UASAPI-Request-Uri'	: '/api/interop/server_info',
-// 			'Content-Type' 			: 'application/x-www-form-urlencoded',
-// 			'Content-Length'		: postData.length
-
-// 		}
-
-//  	}, function(response) {
-
-//  		response.on('data', function(chunk) {
-//  			responseData += chunk;
-//  		});
-
-//  		response.on('end', function() {
-
-//  			if(responseData == 'Login Successful.') {
-// 	 			console.log('doesJSONServerHandleLoginRequest : success');
-// 	 		} else {
-// 	 			console.log('doesJSONServerHandleLoginRequest : failure');
-// 	 		}
-
-//  		});
-
-//  	});
-
-//  	request.write(postData);
-//  	request.end();
-
-// })();
+// add a new instance of our test to the testing library
+Tests.addTest(PostTelemetryTest);

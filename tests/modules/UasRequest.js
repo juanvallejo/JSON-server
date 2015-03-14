@@ -51,10 +51,10 @@ UasRequest.setDefaultHeaders = function(connection) {
 /**
  * Adds a require-authentication-header to the connection object
  */
-UasRequest.requireAuthentication = function(connection) {
+UasRequest.requireAuthentication = function(connection, username, password) {
 
 	connection.addHeaders({
-		'UASAPI-Require-Authentication' : 'true'
+		'UASAPI-Require-Authentication' : 'username=' + username + '&password=' + password
 	});
 
 }
@@ -97,6 +97,10 @@ UasRequest.write = function(connection, data) {
 UasRequest.send = function(connection, callback) {
 
 	connection.end(function(response, cookies) {
+
+		if(response instanceof Error) {
+			return callback.call(UasRequest, response.code);
+		}
 
 		// determine the type of the request made
 		if(this.getConnectionOptions('method') == 'GET') {

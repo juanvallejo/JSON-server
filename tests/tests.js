@@ -176,7 +176,7 @@ Tests.runTest = function(testCase, callback) {
 	}
 
 	// run and store the value returned by running our test
-	testCase.emitOnceOn('end', function(actualValue) {
+	testCase.onEnd(function(actualValue) {
 
 		console.log('');
 		console.log('');

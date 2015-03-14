@@ -27,6 +27,7 @@ function EventObject() {
 
 		if(emitOnce) {
 			callback._emitOnce = true;
+			callback._name = this.name;
 		}
 
 		this.callbacks[eventName].push(callback);
@@ -46,8 +47,6 @@ function EventObject() {
 	 */
 	this.emit = function(eventName, value) {
 
-		var scope = this;
-
 		if(!(value instanceof Array)) {
 			value = [value];
 		}
@@ -56,16 +55,18 @@ function EventObject() {
 			return;
 		}
 
-		this.callbacks[eventName].forEach(function(callback, index) {
-			
-			callback.apply(scope, value);
+		// the use of the 'forEach' function is not appropriate
+		// as it fails to preserve context while iterating through all
+		// items
+		for(var i = 0; i < this.callbacks[eventName].length; i++) {
+
+			this.callbacks[eventName][i].apply(this, value);
 
 			// determine if callback should be removed after being called
-			if(callback._emitOnce) {
-				scope.callbacks[eventName].splice(index, 1);
+			if(this.callbacks[eventName][i]._emitOnce) {
+				this.callbacks[eventName].splice(i, 1);
 			}
-
-		});
+		}
 
 	}
 

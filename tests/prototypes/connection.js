@@ -100,7 +100,13 @@ function Connection() {
 
 		var scope = this;
 
-		var request = require(this.connectionProtocol).request(this.getConnectionOptions(), function(response, cookies) {
+		var request = require(this.connectionProtocol).request(this.getConnectionOptions());
+
+		request.on('error', function(error) {
+			callback.apply(scope, [error]);
+		});
+
+		request.on('response', function(response, cookies) {
 			callback.apply(scope, [response, cookies]);
 		});
 

@@ -20,10 +20,10 @@ var Tests 	= require('../tests.js');
 var Test 	= require('../prototypes/test.js');
 
 // declare and name our new test case
-var ObstacleInformationTest = new Test('doesJSONServerHandleObstacleInformation');
+var ObstacleInformationTest = new Test('doesJSONServerReceiveObstacleInformation');
 
 // set our test case's expected value
-ObstacleInformationTest.expects('{}');
+ObstacleInformationTest.expects('{"stationary_obstacles": [], "moving_obstacles": []}');
 
 // override run function
 ObstacleInformationTest.run = function() {
@@ -36,7 +36,7 @@ ObstacleInformationTest.run = function() {
 	var connection = this.modules.UasRequest.get('/api/interop/obstacles');
 
 	// set request's options and send connection
-	this.modules.UasRequest.requireAuthentication(connection);
+	this.modules.UasRequest.requireAuthentication(connection, 'test', 'test');
 	this.modules.UasRequest.send(connection, function(response) {
 		testCase.end(response);
 	});
