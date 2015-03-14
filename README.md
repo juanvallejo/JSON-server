@@ -55,6 +55,16 @@ Note: if you are using Ubuntu, or any other Linux distro like it, but mainly Ubu
 nodejs ./
 ```
 
+###Running Test Cases
+
+To actually send "sample" requests to the server, cd into the `/tests` folder and run
+
+```
+node ./
+```
+
+For a more complete guide on running and making test cases, see the `README.md` file located inside the `tests` folder.
+
 ###Sending data to the server
 
 The server (as noted on its comments, if you, you know, actually read its code) will listen for http requests (client connections mainly) on port `8000`, and raw MAVLink data on port `7777`. Don't ask how I decided on these port numbers, I just did. 
