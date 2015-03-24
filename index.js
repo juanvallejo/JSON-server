@@ -35,5 +35,7 @@ Globals.rootDirectory = __dirname;
 
 	// initialize socket.io
 	Sockets.listen(application);
-
+	
+	// need this for confirmation
+	console.log("JSON server now listening ...");
 })(Globals.Application);
