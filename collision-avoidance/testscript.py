@@ -8,34 +8,16 @@ from ArdupilotMega import *
 print 'Starting Mission'
 
 item = Locationwp()
+i = 1
+while(i < 5)  {
+  Script.ChangeMode(auto)
+  Locationwp.lat.SetValue(item,39.343674)
+  Locationwp.lng.SetValue(item,-86.029741)
+  Locationwp.alt.SetValue(item,45.720000)
+  MAV.setGuidedModeWP(item)
 
-Script.ChangeMode(auto)
-Locationwp.lat.SetValue(item,39.343674)
-Locationwp.lng.SetValue(item,-86.029741)
-Locationwp.alt.SetValue(item,45.720000)
-MAV.setGuidedModeWP(item)
-
-sleep(30)
-
-Locationwp.lat.SetValue(item,39.345358)
-Locationwp.lng.SetValue(item,-86.029054)
-Locationwp.alt.SetValue(item,76.199999)
-MAV.setGuidedModeWP(item)
-
-sleep(30)
-
-Locationwp.lat.SetValue(item,39.342106)
-Locationwp.lng.SetValue(item,-86.031371)
-Locationwp.alt.SetValue(item,53.340000)
-MAV.setGuidedModeWP(item)
-
-sleep(30)
-
-Locationwp.lat.SetValue(item,39.343540)
-Locationwp.lng.SetValue(item,-86.028732)
-Locationwp.alt.SetValue(item,76.199999)
-MAV.setGuidedModeWP(item)
-
-sleep(30)
+  sleep(30)
+  i = i+1
+}
 
 Script.ChangeMode(rtl)
