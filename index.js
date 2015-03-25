@@ -15,8 +15,8 @@
 **/
 
 // import http module
+var fs 				= require('fs');
 var http 			= require('http');
-var process 		= require('child_process');
 
 // import custom node libraries
 var Globals 		= require('./lib/globals.js');
@@ -35,18 +35,46 @@ Globals.rootDirectory = __dirname;
 	application = http.createServer(Handlers.mainRequestHandler);
 	application.listen(Globals.SERVER_PORT, Globals.SERVER_HOST);
 
-	console.log('Application started. Listening on port ' + Globals.SERVER_PORT);
-
 	// initialize socket.io
 	Sockets.listen(application);
 
-	console.log('Starting module auvsi_competition_server. Listening on port ' + Globals.UAS_PORT);
+	console.log('Application started. Listening on port ' + Globals.SERVER_PORT);
 
-	// start auvsi_competition_server
-	process.exec(Scripts.START_AUVSI_SERVER, function(error, stdout, stderr) {
+	// parse config file
+	fs.readFile(__dirname + '/' + Globals.CONFIG_FILE, function(error, data) {
 
 		if(error) {
-			return console.log(error);
+			return console.log('An error occurred reading configuration file data -> ' + error);
+		}
+
+		var config;
+
+		try {
+			config = JSON.parse(data);
+		} catch(exception) {
+			console.log('Error parsing startup configuration file. None of the submodules have been setup.');
+		}
+
+		if(!config.setup_has_happened) {
+
+			console.log('This is your first time running this application. Setting up submodules...');
+			console.log('Please run "python auvsi_suas_competition/src/auvsi_suas_server/manage.py syncdb"');
+
+			config.setup_has_happened = true;
+
+			fs.writeFile(__dirname + '/' + Globals.CONFIG_FILE, JSON.stringify(config), function(writeError) {
+
+				if(writeError) {
+					return console.log('Error saving startup configuration file -> ' + writeError);
+				}
+
+				process.exit(0);
+
+			});
+
+		} else {
+			console.log('Starting module uas_auvsi_competition. Module will listen on port ' + Globals.UAS_PORT);
+			Scripts.run(Scripts.START_AUVSI_SERVER);
 		}
 
 	});
