@@ -9,4 +9,4 @@
 	url = git://github.com/tridge/jsbsim.git
 [submodule "auvsi_suas_competition"]
 	path = auvsi_suas_competition
-	url = ../auvsi_suas_competition
+	url = git@github.com:juanvallejo/auvsi_suas_competition.git

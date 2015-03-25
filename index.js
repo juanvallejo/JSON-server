@@ -16,9 +16,11 @@
 
 // import http module
 var http 			= require('http');
+var process 		= require('child_process');
 
 // import custom node libraries
 var Globals 		= require('./lib/globals.js');
+var Scripts 		= require('./lib/scripts.js');
 var Handlers 		= require('./lib/handlers.js');
 var Sockets			= require('./lib/sockets.js');
 
@@ -33,7 +35,20 @@ Globals.rootDirectory = __dirname;
 	application = http.createServer(Handlers.mainRequestHandler);
 	application.listen(Globals.SERVER_PORT, Globals.SERVER_HOST);
 
+	console.log('Application started. Listening on port ' + Globals.SERVER_PORT);
+
 	// initialize socket.io
 	Sockets.listen(application);
+
+	console.log('Starting module auvsi_competition_server. Listening on port ' + Globals.UAS_PORT);
+
+	// start auvsi_competition_server
+	process.exec(Scripts.START_AUVSI_SERVER, function(error, stdout, stderr) {
+
+		if(error) {
+			return console.log(error);
+		}
+
+	});
 
 })(Globals.Application);
