@@ -1,3 +1,12 @@
 [submodule "mavlink"]
 	path = mavlink
 	url = git@github.com:mavlink/mavlink.git
+[submodule "ardupilot"]
+	path = ardupilot
+	url = git://github.com/diydrones/ardupilot.git
+[submodule "jsbsim"]
+	path = jsbsim
+	url = git://github.com/tridge/jsbsim.git
+[submodule "auvsi_suas_competition"]
+	path = auvsi_suas_competition
+	url = ../auvsi_suas_competition
