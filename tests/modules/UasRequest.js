@@ -12,6 +12,7 @@ var Connection = require(__dirname + '/../prototypes/connection.js');
 
 // declare our module object
 var UasRequest = {};
+var Agent = require('agentkeepalive');
 
 // set module name
 UasRequest.MODULE_NAME = 'UasRequest';
@@ -121,6 +122,42 @@ UasRequest.send = function(connection, callback) {
 	});
 
 }
+
+/**
+ * Makes a persistant request based on which type of request we need. And 
+ * makes that request based on a keepLiveAgent written to keep liv for a certain ammount of time.
+ *@param Type {String} Identifying type of Request
+ *@param Also takes the uasAPIHeader in the actual persistent request method
+ */
+    
+    var keepaliveAgent = new Agent({
+          maxSockets: 100,
+          maxFreeSockets: 10,
+          timeout: 60000,
+          keepAliveTimeout: 30000 // free socket keepalive for 30 seconds
+    });
+
+    UasRequest.makePersistentRequest = function(uasAPIHeader, Type) {
+    	if(Type == "GET") {
+	         Connection.listen(8080, '0.0.0.0');
+                    UasRequest
+                       .get(uasAPIHeader)
+                       .agent(keepaliveAgent)
+                       .end(function (err, uasAPIHeader) {
+			   console.log(uasAPIHeader.text);
+                         });
+	    } else if(Type == "POST") {
+	    
+	          Connection.listen(8080, '0.0.0.0');
+                     UasRequest
+                        .post(uasAPIHeader)                      
+                        .agent(keepaliveAgent)
+                        .end(function (err, uasAPIHeader) {
+                            console.log(uasAPIHeader.text);
+			    });
+                }
+    }
+
 
 /**
  * Takes a uasAPIHeader and creates a new GET request

@@ -25,7 +25,10 @@ brew install npm
 
 ####Install dependencies
 
-Use npm to install dependencies: `npm install`
+Use npm to install dependencies for JSON Server: `npm install`
+
+To install dependencies for persistent requests that the JSON Server makes run:
+`npm install agentkeepalive --save`
 
 ####Prepare submodules
 
