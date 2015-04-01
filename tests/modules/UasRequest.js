@@ -129,7 +129,8 @@ UasRequest.send = function(connection, callback) {
  *@param Type {String} Identifying type of Request
  *@param Also takes the uasAPIHeader in the actual persistent request method
  */
-    
+
+/*Code Below */
     var keepaliveAgent = new Agent({
           maxSockets: 100,
           maxFreeSockets: 10,
@@ -157,7 +158,6 @@ UasRequest.send = function(connection, callback) {
 			    });
                 }
     }
-
 
 /**
  * Takes a uasAPIHeader and creates a new GET request
