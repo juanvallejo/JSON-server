@@ -12,7 +12,7 @@ var Connection = require(__dirname + '/../prototypes/connection.js');
 
 // declare our module object
 var UasRequest = {};
-var Agent = require('agentkeepalive');
+var Agent = require('../../node_modules/agentkeepalive');
 
 // set module name
 UasRequest.MODULE_NAME = 'UasRequest';
@@ -130,33 +130,46 @@ UasRequest.send = function(connection, callback) {
  *@param Also takes the uasAPIHeader in the actual persistent request method
  */
 
-/*Code Below */
-    var keepaliveAgent = new Agent({
-          maxSockets: 100,
-          maxFreeSockets: 10,
-          timeout: 60000,
-          keepAliveTimeout: 30000 // free socket keepalive for 30 seconds
-    });
+// Have Connection listen on port 8080 Will Return successful after 3 sec.
+    UasRequest.makePersistentRequest = function(uasAPIHeader) {
 
-    UasRequest.makePersistentRequest = function(uasAPIHeader, Type) {
-    	if(Type == "GET") {
-	         Connection.listen(8080, '0.0.0.0');
-                    UasRequest
-                       .get(uasAPIHeader)
-                       .agent(keepaliveAgent)
-                       .end(function (err, uasAPIHeader) {
-			   console.log(uasAPIHeader.text);
-                         });
-	    } else if(Type == "POST") {
-	    
-	          Connection.listen(8080, '0.0.0.0');
-                     UasRequest
-                        .post(uasAPIHeader)                      
-                        .agent(keepaliveAgent)
-                        .end(function (err, uasAPIHeader) {
-                            console.log(uasAPIHeader.text);
-			    });
-                }
+        var http = require('http');
+        var Agent = require('agentkeepalive');
+        
+        var keepaliveAgent = new Agent({
+                maxSockets: 100,
+                maxFreeSockets: 10,
+                timeout: 10000, //times out after 10 seconds.
+                keepAliveTimeout: 3000 // free socket keepalive for 3 seconds
+        });
+        
+        var options = {
+            
+            host: 'localhost',
+            port: 8080,
+            path: '/',
+            method: 'POST',
+            agent: keepaliveAgent
+            
+        };
+        
+        var req = http.request(options, function (res) {
+                console.log('\n  \n' + 'STATUS: ' + res.statusCode);
+                console.log('HEADERS: ' + JSON.stringify(res.headers));
+                res.setEncoding('utf8');
+                res.on('data', function (chunk) {
+                console.log('BODY: ' + chunk);
+                    });
+            });
+        
+        req.on('error', function (e) {
+            return ('problem with request: ' + e.message);
+        });
+        req.end();
+        
+        setTimeout(function () {
+            return ('keep alive sockets:' + keepaliveAgent.unusedSockets);
+                   }, 2000);
     }
 
 /**
