@@ -135,6 +135,7 @@ UasRequest.send = function(connection, callback) {
 
         var http = require('http');
         var Agent = require('agentkeepalive');
+        var Result = '';
         
         var keepaliveAgent = new Agent({
                 maxSockets: 100,
@@ -148,7 +149,7 @@ UasRequest.send = function(connection, callback) {
             host: 'localhost',
             port: 8080,
             path: '/',
-            method: 'POST',
+            method: 'GET',
             agent: keepaliveAgent
             
         };
@@ -163,13 +164,15 @@ UasRequest.send = function(connection, callback) {
             });
         
         req.on('error', function (e) {
-            return ('problem with request: ' + e.message);
+            Result = ('problem with request: ' + e.message);
         });
         req.end();
         
         setTimeout(function () {
-            return ('keep alive sockets:' + keepaliveAgent.unusedSockets);
+            Result = ('keep alive sockets:' + keepaliveAgent.unusedSockets);
                    }, 2000);
+        
+        return Result;
     }
 
 /**

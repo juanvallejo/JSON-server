@@ -26,7 +26,9 @@ MakePersistentRequest.run = function() {
     */
     
     var connection = this.modules.UasRequest.makePersistentRequest('/api/interop/uas_telemetry');
+    
 }
 
 //  add a new instance of our test to the testing library
-Tests.addTest(MakePersistentRequest);
+// I will mask this portion out for now so that I dont mess with the functionality of other test cases.
+//Tests.addTest(MakePersistentRequest);
