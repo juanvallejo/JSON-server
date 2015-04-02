@@ -12,16 +12,16 @@ var Connection = require(__dirname + '/../prototypes/connection.js');
 
 // declare our module object
 var UasRequest = {};
-var Agent = require('../../node_modules/agentkeepalive');
 
 // set module name
 UasRequest.MODULE_NAME = 'UasRequest';
 
+//Define options for node connections and agents
 var defaultRequestOptions = {
 
 	port 	: 8000,
 	method 	: 'POST',
-	path 	: '/api/test',
+	path 	: '/api/test'
 
 };
 
@@ -122,58 +122,6 @@ UasRequest.send = function(connection, callback) {
 	});
 
 }
-
-/**
- * Makes a persistant request based on which type of request we need. And 
- * makes that request based on a keepLiveAgent written to keep liv for a certain ammount of time.
- *@param Type {String} Identifying type of Request
- *@param Also takes the uasAPIHeader in the actual persistent request method
- */
-
-// Have Connection listen on port 8080 Will Return successful after 3 sec.
-    UasRequest.makePersistentRequest = function(uasAPIHeader) {
-
-        var http = require('http');
-        var Agent = require('agentkeepalive');
-        var Result = '';
-        
-        var keepaliveAgent = new Agent({
-                maxSockets: 100,
-                maxFreeSockets: 10,
-                timeout: 10000, //times out after 10 seconds.
-                keepAliveTimeout: 3000 // free socket keepalive for 3 seconds
-        });
-        
-        var options = {
-            
-            host: 'localhost',
-            port: 8080,
-            path: '/',
-            method: 'GET',
-            agent: keepaliveAgent
-            
-        };
-        
-        var req = http.request(options, function (res) {
-                console.log('\n  \n' + 'STATUS: ' + res.statusCode);
-                console.log('HEADERS: ' + JSON.stringify(res.headers));
-                res.setEncoding('utf8');
-                res.on('data', function (chunk) {
-                console.log('BODY: ' + chunk);
-                    });
-            });
-        
-        req.on('error', function (e) {
-            Result = ('problem with request: ' + e.message);
-        });
-        req.end();
-        
-        setTimeout(function () {
-            Result = ('keep alive sockets:' + keepaliveAgent.unusedSockets);
-                   }, 2000);
-        
-        return Result;
-    }
 
 /**
  * Takes a uasAPIHeader and creates a new GET request

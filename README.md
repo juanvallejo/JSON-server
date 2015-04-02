@@ -70,6 +70,11 @@ node ./
 
 For a more complete guide on running and making test cases, see the `README.md` file located inside the `tests` folder.
 
+You can also locate and run the shell script:
+```sh
+run_tests
+```
+
 ###Sending data to the server
 
 The server (as noted on its comments, if you, you know, actually read its code) will listen for http requests (client connections mainly) on port `8000`, and raw MAVLink data on port `7777`. Don't ask how I decided on these port numbers, I just did. 

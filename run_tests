@@ -1,0 +1,9 @@
+
+
+# This is a tool to make it easy for us to run the tests cases from the root of the project.
+
+node tests/./
+
+
+
+
