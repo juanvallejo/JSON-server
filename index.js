@@ -28,6 +28,7 @@ var Sockets			= require('./lib/sockets.js');
 Globals.rootDirectory = __dirname;
 
 
+
 // initialize application
 (function main(application) {
 

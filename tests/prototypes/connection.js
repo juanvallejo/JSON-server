@@ -19,8 +19,7 @@ function Connection() {
 		port : null,
 		method : null,
 		path : null,
-		headers : {}
-
+		headers : {},
 	};
 
 	/**
