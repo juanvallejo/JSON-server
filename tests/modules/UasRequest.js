@@ -124,6 +124,47 @@ UasRequest.send = function(connection, callback) {
 }
 
 /**
+ * Making persistent post request with post method. Runs on boolean operator.
+ *
+ * @param uasAPIHeader {For path to competition server request}
+ */
+
+var preq = false;
+UasRequest.makePersistentPOSTRequest = function(uasAPIHeader) {
+    var connected;
+    
+    if (!preq) {
+        connected = UasRequest.create('http', 'POST', uasAPIHeader);
+        preq = true;
+        return connected;
+    } else {
+        if (connected == UasRequest.create('http', 'POST', uasAPIHeader)) {
+            return connected
+        } else {
+            preq = false;
+        }
+    }
+    
+}
+
+UasRequest.makePersistentGETRequest = function(uasAPIHeader) {
+    var connected;
+    
+    if (!preq) {
+        connected = UasRequest.create('http', 'POST', uasAPIHeader);
+        preq = true;
+        return connected;
+    } else {
+        if (connected == UasRequest.create('http', 'POST', uasAPIHeader)) {
+            return connected
+        } else {
+            preq = false;
+        }
+    }
+    
+}
+
+/**
  * Takes a uasAPIHeader and creates a new GET request
  */
 UasRequest.get = function(uasAPIHeader) {
