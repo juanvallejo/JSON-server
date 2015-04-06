@@ -3,7 +3,7 @@
  * such that they indicate to the test server which parameters should be used when dealing with a connection
  * to the interoperability server
  *
- * @author juanvallejo
+ * @author juanvallejo davidkroell
  * @date 3/11/15
  */
 
