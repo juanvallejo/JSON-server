@@ -130,15 +130,15 @@ UasRequest.send = function(connection, callback) {
  */
 
 var preq = false;
-UasRequest.makePersistentPOSTRequest = function(uasAPIHeader) {
+UasRequest.makePersistentRequest = function(Type, uasAPIHeader) {
     var connected;
     
     if (!preq) {
-        connected = UasRequest.create('http', 'POST', uasAPIHeader);
+        connected = UasRequest.create('http', Type, uasAPIHeader);
         preq = true;
         return connected;
     } else {
-        if (connected == UasRequest.create('http', 'POST', uasAPIHeader)) {
+        if (connected == UasRequest.create('http', Type, uasAPIHeader)) {
             return connected
         } else {
             preq = false;
@@ -147,22 +147,6 @@ UasRequest.makePersistentPOSTRequest = function(uasAPIHeader) {
     
 }
 
-UasRequest.makePersistentGETRequest = function(uasAPIHeader) {
-    var connected;
-    
-    if (!preq) {
-        connected = UasRequest.create('http', 'POST', uasAPIHeader);
-        preq = true;
-        return connected;
-    } else {
-        if (connected == UasRequest.create('http', 'POST', uasAPIHeader)) {
-            return connected
-        } else {
-            preq = false;
-        }
-    }
-    
-}
 
 /**
  * Takes a uasAPIHeader and creates a new GET request
