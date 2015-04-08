@@ -1,14 +1,12 @@
 #!/bin/env node
 
 /**
- * Checks to see that a login request is handled and parsed by the server. An authentication token should be
- * received
- *
- * @author juanvallejo
- * @date 3/11/15
+ * Checks to make sure that a persistent request is handeled correctly by the JSON-server.
+ * @author davidkroell
+ * @date 4/07/15
  *
  * @testcase
- * @request POST
+ * @request PERSISTENT_POST
  */
 
 // import prototype object and test case library
@@ -16,7 +14,7 @@ var Tests 	= require('../tests.js');
 var Test 	= require('../prototypes/test.js');
 
 // declare and name our new test case
-var PostTelemetryTest = new Test('doesJSONServerHandleLoginRequest');
+var PostTelemetryTest = new Test('doesJSONServerHandlePersistentPOSTRequests');
 
 // set our test case's expected value
 PostTelemetryTest.expects('UAS Telemetry Successfully Posted.');
@@ -36,8 +34,7 @@ PostTelemetryTest.run = function() {
 	this.modules.UasRequest.requireAuthentication(connection, 'test', 'test');
 	this.modules.UasRequest.send(connection, function(response) {
 		testCase.end(response);
-	});
-
+    });
 }
 
 // add a new instance of our test to the testing library
