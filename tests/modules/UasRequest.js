@@ -130,15 +130,15 @@ UasRequest.send = function(connection, callback) {
  */
 
 var preq = false;
-UasRequest.makePersistentRequest = function(Type, uasAPIHeader) {
+UasRequest.makePersistentRequest = function(uasAPIHeader) {
     var connected;
     
     if (!preq) {
-        connected = UasRequest.create('http', Type, uasAPIHeader);
+        connected = UasRequest.create('http', 'POST', uasAPIHeader);
         preq = true;
         return connected;
     } else {
-        if (connected == UasRequest.create('http', Type, uasAPIHeader)) {
+        if (connected == UasRequest.create('http', 'POST', uasAPIHeader)) {
             return connected
         } else {
             preq = false;
