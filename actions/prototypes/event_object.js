@@ -1,6 +1,6 @@
 /**
  * Contains the blueprint (prototype) for an instantiated object that emits events.
- * Meant to be used with the Tests test-case library
+ * Meant to be used with the Actions Action-case library
  *
  * @author juanvallejo
  * @date 3/11/15
@@ -15,7 +15,7 @@ function EventObject() {
 	this.callbacks 		= {};
 
 	/**
-	 * assign a callback for a specific event of the test case
+	 * assign a callback for a specific event of the Action case
 	 */
 	this.on = function(eventName, callback, emitOnce) {
 

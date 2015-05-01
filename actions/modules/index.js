@@ -1,5 +1,5 @@
 /**
- * TestCase modules. Provide wrappers with predefined values, classes, etc. for test cases
+ * ActionCase modules. Provide wrappers with predefined values, classes, etc. for Action cases
  */
 
 //import all modules

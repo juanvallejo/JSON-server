@@ -5,15 +5,15 @@
  * @date 3/11/15
  */
 
-// import test case library
-var Tests = require(__dirname + '/tests.js');
+// import actions case library
+var Actions = require(__dirname + '/actions.js');
 
-//import all test cases
-require('fs').readdirSync(__dirname + '/tests').forEach(function(testCase) {
+//import all actions
+require('fs').readdirSync(__dirname + '/actions').forEach(function(actionThing) {
 	if(testCase.split('.js').length > 1) {
-		require(__dirname + '/tests/' + testCase);
+		require(__dirname + '/actions/' + actionThing);
 	}
 });
 
-// run all tests
-Tests.run();
+// run all actions
+Actions.run();

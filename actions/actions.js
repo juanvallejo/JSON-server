@@ -1,39 +1,39 @@
 #!/bin/env node
 
 /**
- * Test case library. Contains the main Tests {} object for holding all unit test cases and test library apis.
- * Meant to be used with the Test prototype
+ * Action case library. Contains the main Actions {} object for holding all unit Action cases and Action library apis.
+ * Meant to be used with the Action prototype
  *
  * @author juanvallejo
  * @date 3/11/15
  */
 
-// initialize our Tests api
-var Tests = {};
+// initialize our Actions api
+var Actions = {};
 
-Tests.VERSION 			= 'v1.0';
+Actions.VERSION 			= 'v1.1';
 
-// define a default category and a dictionary to hold our tests. Each key will be a test category, and each value will be an array
-// of test cases pertaining to that specific category
-Tests.defaultCategory 	= 'General';
-Tests.items 			= {};
-Tests.itemCount 		= 0;
+// define a default category and a dictionary to hold our actions god damn it! (Not Actions..). Each key will be an action category, and each value will be an array
+// of Action cases pertaining to that specific category
+Actions.defaultCategory 	= 'General';
+Actions.items 			= {};
+Actions.itemCount 		= 0;
 
-Tests.size = function() {
-	return Tests.itemCount;
+Actions.size = function() {
+	return Actions.itemCount;
 }
 
 /**
  * assign a new value to our default category
  */
-Tests.setDefaultCategory = function(category) {
-	Tests.defaultCategory = category;
+Actions.setDefaultCategory = function(category) {
+	Actions.defaultCategory = category;
 }
 
 /**
- * Assert that two test-case objects are the same
+ * Assert that two Action-case objects are the same
  */
-Tests.assertObjectEquals = function(expectedObject, actualObject) {
+Actions.assertObjectEquals = function(expectedObject, actualObject) {
 
 	// determine if an 'equals' method has been declared for either object
 	if(typeof expectedObject.equals == 'function' || typeof actualObject.equals == 'function') {
@@ -46,14 +46,14 @@ Tests.assertObjectEquals = function(expectedObject, actualObject) {
 	}
 
 	// if no equals method is found, compare both objects like string values
-	return Tests.assertStringEquals(expectedObject, actualObject);
+	return Actions.assertStringEquals(expectedObject, actualObject);
 
 }
 
 /**
- * Assert that two test-case strings are the same
+ * Assert that two Action-case strings are the same
  */
-Tests.assertStringEquals = function(expectedString, actualString) {
+Actions.assertStringEquals = function(expectedString, actualString) {
 
 	if(expectedString == actualString) {
 		return true;
@@ -66,7 +66,7 @@ Tests.assertStringEquals = function(expectedString, actualString) {
 /**
  * Assert both values are of type null
  */
-Tests.assertNullEquals = function(expected, actual) {
+Actions.assertNullEquals = function(expected, actual) {
 
 	if(expected === null && actual === null) {
 		return true;
@@ -79,79 +79,79 @@ Tests.assertNullEquals = function(expected, actual) {
 /**
  * Assert that two values are equal
  */
-Tests.assertEquals = function(expected, actual) {
+Actions.assertEquals = function(expected, actual) {
 
 	// determine if two values are of type object, act accordingly
 	if(typeof expected == 'function' || typeof actual == 'function') {
-		return Tests.assertObjectEquals(expected, actual);
+		return Actions.assertObjectEquals(expected, actual);
 	}
 
 	if(expected === null || actual === null) {
-		return Tests.assertNullEquals(expected, actual);
+		return Actions.assertNullEquals(expected, actual);
 	}
 
-	return Tests.assertStringEquals(expected, actual);
+	return Actions.assertStringEquals(expected, actual);
 
 }
 
 /**
- * Add a test case to the Tests library, under a specific category.
+ * Add a Action case to the Actions library, under a specific category.
  * 
- * @param category is a String containing a specific category to assign to your test case
- * @param testCase (Test) object to add to our list of categorically-sorted test cases
+ * @param category is a String containing a specific category to assign to your Action case
+ * @param ActionCase (Action) object to add to our list of categorically-sorted Action cases
  */
-Tests.addTestWithCategory = function(testCase, category) {
+Actions.addActionWithCategory = function(ActionCase, category) {
 
-	// create a new category array for our test if one does not exist by the given one
-	if(!Tests.items[category]) {
-		Tests.items[category] = [];
+	// create a new category array for our Action if one does not exist by the given one
+	if(!Actions.items[category]) {
+		Actions.items[category] = [];
 	}
 
-	// tell the test case which index it will be assigned when it's added
-	// to our list of test cases
-	testCase._testsItemsIndex = Tests.items[category].length;
+	// tell the Action case which index it will be assigned when it's added
+	// to our list of Action cases
+	ActionCase._ActionsItemsIndex = Actions.items[category].length;
 
-	testCase.setCategory(category);
-	Tests.items[category].push(testCase);
+	ActionCase.setCategory(category);
+	Actions.items[category].push(ActionCase);
 
-	// increment the amount of tests added
-	Tests.itemCount++;
+	// increment the amount of Actions added
+	Actions.itemCount++;
 
 }
 
 /**
- * Add a test case to the Tests library, under the default category. If a testCase object contains
+ * Add a Action case to the Actions library, under the default category. If a ActionCase object contains
  * a 'category' value already (assigned by the user), this is used instead.
  * 
- * @param testCase
+ * @param ActionCase
  */
-Tests.addTest = function(testCase) {
+Actions.addAction = function(ActionCase) {
 
-	var category = testCase.getCategory();
+	var category = ActionCase.getCategory();
 
 	if(!category) {
-		category = Tests.defaultCategory;
+		category = Actions.defaultCategory;
 	}
 
-	Tests.addTestWithCategory(testCase, category);
+	Actions.addActionWithCategory(ActionCase, category);
 }
 
 /**
- * Remove a test object from our list of added test cases. A test is removed by setting its
+ * Remove a Action object from our list of added Action cases. A Action is removed by setting its
  * value in the array to null.
  */
-Tests.removeTest = function(testCase) {
+Actions.removeAction = function(ActionCase) {
 
-	if(testCase._testsItemsIndex) {
-		Tests.items[testCase.getCategory()][testCase._testsItemsIndex] = null;
+	if(ActionCase._ActionsItemsIndex) {
+		Actions.items[ActionCase.getCategory()][ActionCase._ActionsItemsIndex] = null;
 		return;
 	}
 
-	for(var i in Tests.items) {
+	for(var i in Actions.items) {
 
-		Tests.items[i].forEach(function(item, index) {
-			if(item == testCase) {
-				Tests.items[i][index] = null;
+		Actions.items[i].forEach(function(item, index) {
+			if(item == ActionCase) {
+				Actions.items[i][index] = null;
 				return;
 			}
 		});
@@ -161,88 +161,88 @@ Tests.removeTest = function(testCase) {
 }
 
 /**
- * Run an individual test case. Requires a callback function to be passed in order
- * to support asynchronous test cases
+ * Run an individual Action case. Requires a callback function to be passed in order
+ * to support asynchronous Action cases
  * 
- * @return boolean true or false, depending on test case result
+ * @return boolean true or false, depending on Action case result
  */
-Tests.runTest = function(testCase, callback) {
+Actions.runAction = function(ActionCase, callback) {
 
-	// log our test-case information
-	if(testCase.getExpectedValue() === undefined) {
+	// log our Action-case information
+	if(ActionCase.getExpectedValue() === undefined) {
 		console.log('');
-		console.log('Warning: Test case \'' + testCase.getName() + '\' skipped! No expected value provided. Use .expected(value) to assign one for this case.');
+		console.log('Warning: Action case \'' + ActionCase.getName() + '\' skipped! No expected value provided. Use .expected(value) to assign one for this case.');
 		return;
 	}
 
-	// run and store the value returned by running our test
-	testCase.onEnd(function(actualValue) {
+	// run and store the value returned by running our Action
+	ActionCase.onEnd(function(actualValue) {
 
 		console.log('');
 		console.log('');
-		console.log('Test name: ' + this.getName());
-		console.log('Test expected: ' + this.getExpectedValue());
-		console.log('Test returned: ' + actualValue);
+		console.log('Action name: ' + this.getName());
+		console.log('Action expected: ' + this.getExpectedValue());
+		console.log('Action returned: ' + actualValue);
 		console.log('');
 
-		// determine if the test was successful
-		if(Tests.assertEquals(this.getExpectedValue(), actualValue)) {
-			console.log('Test result: success');
+		// determine if the Action was successful
+		if(Actions.assertEquals(this.getExpectedValue(), actualValue)) {
+			console.log('Action result: success');
 			callback.call(this, true);
 			return;
 		}
 
 		// expected and actual values differ
-		console.log('Test result: fail');
+		console.log('Action result: fail');
 		callback.call(this, false);
 
 		return;
 
 	});
 
-	testCase.run();
+	ActionCase.run();
 
 }
 
 /**
- * Run all test cases
+ * Run all Action cases
  */
-Tests.run = function() {
+Actions.run = function() {
 
-	console.log('Tests version ' + Tests.VERSION + ' initialized.');
+	console.log('Actions version ' + Actions.VERSION + ' initialized.');
 	console.log('');
 
-	var passedTestsCount = 0;
-	var failedTestsCount = 0;
+	var passedActionsCount = 0;
+	var failedActionsCount = 0;
 
-	for(var i in Tests.items) {
+	for(var i in Actions.items) {
 
-		// only announce current category of tests being run if we have moved on to a new one
+		// only announce current category of Actions being run if we have moved on to a new one
 		
 		console.log('------------> ' + i + ' <------------');
 
-		Tests.items[i].forEach(function(testCase) {
+		Actions.items[i].forEach(function(ActionCase) {
 
-			Tests.runTest(testCase, function(testCasePassed) {
+			Actions.runAction(ActionCase, function(ActionCasePassed) {
 
-				// run the individual test and determine its outcome
-				if(testCasePassed) {
-					passedTestsCount++;
+				// run the individual Action and determine its outcome
+				if(ActionCasePassed) {
+					passedActionsCount++;
 				} else {
-					failedTestsCount++;
+					failedActionsCount++;
 				}
 
-				// determine if all tests have been called
-				if(passedTestsCount + failedTestsCount == Tests.size()) {
+				// determine if all Actions have been called
+				if(passedActionsCount + failedActionsCount == Actions.size()) {
 
 					// add some spacing before our message
 					console.log('');
 					console.log('');
 					console.log('------------> Results <------------');
 					console.log('');
-					console.log('Total passed: ' + passedTestsCount);
-					console.log('Total failed: ' + failedTestsCount);
-					console.log('Total found: ' + (passedTestsCount + failedTestsCount));
+					console.log('Total passed: ' + passedActionsCount);
+					console.log('Total failed: ' + failedActionsCount);
+					console.log('Total found: ' + (passedActionsCount + failedActionsCount));
 					console.log('');
 
 				}
@@ -255,4 +255,4 @@ Tests.run = function() {
 
 }
 
-module.exports = Tests;
+module.exports = Actions;

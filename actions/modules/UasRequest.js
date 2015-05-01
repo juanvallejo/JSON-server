@@ -1,6 +1,6 @@
 /**
- * Request module for test cases. Prepares an http or http request, and appends headers to it
- * such that they indicate to the test server which parameters should be used when dealing with a connection
+ * Request module for Action cases. Prepares an http or http request, and appends headers to it
+ * such that they indicate to the Action server which parameters should be used when dealing with a connection
  * to the interoperability server
  *
  * @author juanvallejo davidkroell
@@ -21,7 +21,7 @@ var defaultRequestOptions = {
 
 	port 	: 8000,
 	method 	: 'POST',
-	path 	: '/api/test'
+	path 	: '/api/Action'
 
 };
 

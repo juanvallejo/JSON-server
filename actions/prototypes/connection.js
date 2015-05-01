@@ -1,6 +1,6 @@
 /**
  * Contains the blueprint (prototype) for a single connection object.
- * Meant to be used with the Tests test-case library
+ * Meant to be used with the Actions Action-case library
  *
  * @author juanvallejo
  * @date 3/11/15
