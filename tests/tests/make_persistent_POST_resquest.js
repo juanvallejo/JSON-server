@@ -17,7 +17,7 @@ var Test 	= require('../prototypes/test.js');
 var PostTelemetryTest = new Test('doesJSONServerHandlePersistentPOSTRequests');
 
 // set our test case's expected value
-PostTelemetryTest.expects('UAS Telemetry Successfully Posted.');
+PostTelemetryTest.expects('UAS Telemetry Successfully Posted via persistent request.');
 
 // override run function
 PostTelemetryTest.run = function() {
