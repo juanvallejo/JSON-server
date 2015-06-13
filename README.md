@@ -57,6 +57,8 @@ nodejs ./
 
 ###Running Test Cases
 
+Before running the tests, you should probably change values of the username and password in the sourcecode of each test, or create a new user with a username test and password test so that all cases will pass.
+
 To actually send "sample" requests to the server, cd into the `/tests` folder and run
 
 ```

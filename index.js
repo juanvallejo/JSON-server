@@ -79,4 +79,7 @@ Globals.rootDirectory = __dirname;
 
 	});
 
+	// need this for confirmation
+	console.log("JSON server now listening ...");
+
 })(Globals.Application);
