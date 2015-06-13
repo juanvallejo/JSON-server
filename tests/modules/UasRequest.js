@@ -136,4 +136,14 @@ UasRequest.post = function(uasAPIHeader) {
 	return UasRequest.create('http', 'POST', uasAPIHeader);
 }
 
+var pconnection;
+UasRequest.ppost = function(uasAPIHeader) {
+	
+	if(!pconnection) {
+		pconnection = UasRequest.create('http', 'POST', uasAPIHeader);
+	}
+
+	return pconnection;
+}
+
 module.exports = UasRequest;
