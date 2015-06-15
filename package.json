@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "socket.io": "~1.3.5",
-    "mysql": "~2.5.5"
+    "mysql": "~2.5.5",
+    "mavlink": "~1.0.1"
   },
   "devDependencies": {},
   "private": true,

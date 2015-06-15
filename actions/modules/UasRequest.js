@@ -1,9 +1,9 @@
 /**
- * Request module for test cases. Prepares an http or http request, and appends headers to it
- * such that they indicate to the test server which parameters should be used when dealing with a connection
+ * Request module for Action cases. Prepares an http or http request, and appends headers to it
+ * such that they indicate to the Action server which parameters should be used when dealing with a connection
  * to the interoperability server
  *
- * @author juanvallejo
+ * @author juanvallejo davidkroell
  * @date 3/11/15
  */
 
@@ -16,17 +16,24 @@ var UasRequest = {};
 // set module name
 UasRequest.MODULE_NAME = 'UasRequest';
 
+//Define options for node connections and agents
 var defaultRequestOptions = {
 
 	port 	: 8000,
 	method 	: 'POST',
-	path 	: '/api/test'
+	path 	: '/api/uas'
 
 };
 
 var defaultRequestHeaders = {
 	'Content-Type' 	: 'application/x-www-form-urlencoded'
 }
+
+// holds existing connections and reuses them
+var established = {
+	post 	: null,
+	get 	: null
+};
 
 // declare default fields
 
@@ -123,27 +130,32 @@ UasRequest.send = function(connection, callback) {
 }
 
 /**
+ * Summons an existent POST request. Creates one if there has not been one
+ * previously established by this method
+ */
+UasRequest.invokePOSTRequest = function(uasAPIHeader) {
+
+	// create a new request and save reference to it
+	if(!established.post) {
+		established.post = UasRequest.createPOSTRequest(uasAPIHeader);
+	}
+
+	return established.post;
+
+}
+
+/**
  * Takes a uasAPIHeader and creates a new GET request
  */
-UasRequest.get = function(uasAPIHeader) {
+UasRequest.createGETRequest = function(uasAPIHeader) {
 	return UasRequest.create('http', 'GET', uasAPIHeader);
 }
 
 /**
  * Takes a uasAPIHeader and creates a new POST request
  */
-UasRequest.post = function(uasAPIHeader) {
+UasRequest.createPOSTRequest = function(uasAPIHeader) {
 	return UasRequest.create('http', 'POST', uasAPIHeader);
-}
-
-var pconnection;
-UasRequest.ppost = function(uasAPIHeader) {
-	
-	if(!pconnection) {
-		pconnection = UasRequest.create('http', 'POST', uasAPIHeader);
-	}
-
-	return pconnection;
 }
 
 module.exports = UasRequest;
